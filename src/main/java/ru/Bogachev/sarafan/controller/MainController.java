@@ -1,6 +1,7 @@
 package ru.Bogachev.sarafan.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,38 +11,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.Bogachev.sarafan.domain.Message;
 import ru.Bogachev.sarafan.repository.MessageRepository;
 
+import org.slf4j.Logger;
+
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
-public class GreetingController {
+public class MainController {
+    private final Logger logger = LoggerFactory.getLogger(MainController.class);
     private final MessageRepository messageRepository;
 
-    @GetMapping("/greeting")
-    public String greeting (
-            @RequestParam(name = "name", required = false, defaultValue = "World") String name,
-            Model model
-    ) {
-            model.addAttribute("name", name);
+    @GetMapping("/")
+    public String greeting () {
             return "greeting";
     }
 
-    @GetMapping("/")
+    @GetMapping("/main")
     public String main (@ModelAttribute("message") Message message, Model model) {
         model.addAttribute("messages", messageRepository.findAll());
         return "main";
     }
-    @PostMapping("/")
+    @PostMapping("/main")
     public String add (@ModelAttribute(name = "message") Message message, Model model) {
         messageRepository.save(message);
-        return "redirect:/";
+        return "redirect:/main";
     }
     @PostMapping("/filter")
     public String filter (
             @ModelAttribute(name = "message") Message message,
             @RequestParam(name = "filter") String filter, Model model) {
+        logger.info("Filter value: {}", filter);
 
         if(filter.isEmpty()) {
-            return "redirect:/";
+            return "redirect:/main";
         }
+        List<Message> filteredMessages = messageRepository.findByTag(filter);
+        logger.info("Filtered messages: {}", filteredMessages);
+
         model.addAttribute("messages", messageRepository.findByTag(filter));
         return "main";
     }

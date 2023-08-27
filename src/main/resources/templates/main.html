@@ -5,19 +5,23 @@
 	<title>Main</title>
 </head>
 <body>
-<form method="post" th:action="@{/}" th:object="${message}" >
-	<label for="text">Введите сообщение</label>
-	<input type="text" id="text" th:field="*{text}">
+<div>
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="Sign Out"/>
+	</form>
+</div>
+
+<form method="post" th:action="@{/main}" th:object="${message}">
+	<input type="text" id="text" th:field="*{text}" placeholder="Введите сообщение">
 	<br/>
-	<label for="tag">Тэг</label>
-	<input type="text" id="tag" th:field="*{tag}">
+	<input type="text" id="tag" th:field="*{tag}" placeholder="Тэг">
 	<br/>
 	<input type="submit" value="Добавить!">
 </form>
 
 
 <div>Список сообщений</div>
-<form method="post" action="/filter">
+<form method="post" th:action="@{/filter}">
 	<input type="text" id="filter" name="filter">
 	<input type="submit" value="Найти">
 </form>
