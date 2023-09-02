@@ -10,6 +10,7 @@ import ru.Bogachev.sarafan.domain.User;
 import ru.Bogachev.sarafan.repository.UserRepository;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,9 +25,10 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(User user, Model model) {
-        User userFromDb = userRepository.findByUsername(user.getUsername());
+        Optional<User> userFromDb = userRepository
+                .findByUsername(user.getUsername());
 
-        if (userFromDb != null) {
+        if (userFromDb.isPresent()) {
             model.addAttribute("message", "User exists!");
             return "registration";
         }

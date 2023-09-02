@@ -5,7 +5,9 @@
 	<title>Greeting Started: Service Web Content</title>
 </head>
 <body>
-<h1>Welcome, user</h1>
+<h1 th:if="${user}">
+	Welcome, <span th:text="${user.username}"></span>
+</h1>
 <a th:href="@{/main}">Main page</a>
 </body>
 </html>
