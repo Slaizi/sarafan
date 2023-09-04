@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Main</title>
+	<link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 <div>
@@ -12,23 +13,28 @@
 	<span><a th:href="@{/user}">User list</a></span>
 </div>
 
-<form method="post" th:action="@{/main}">
+<form method="post" th:action="@{/main}" enctype="multipart/form-data">
 	<input type="text" id="text" name="text" placeholder="Введите сообщение">
 	<br/>
 	<input type="text" id="tag" name="tag" placeholder="Тэг">
+	<br/>
+	<input type="file" id="file" name="file">
 	<br/>
 	<input type="submit" value="Добавить!">
 </form>
 
 
 <div>Список сообщений</div>
-<form method="get" th:action="@{/main}">
+<form th:method="GET" th:action="@{/main}">
 	<input type="text" id="filter" name="filter" th:value="${filter}">
 	<input type="submit" value="Найти">
 </form>
 <div th:each="message : ${messages}">
 	<p th:text="${message.getId()} + ': ' + ${message.getText()} + ' - '
 	+ ${message.getTag()} + ' - ' + ${message.getAuthorName()}"/>
+	<div th:if="${message.filename}">
+		<img th:src="@{'/img/' + ${message.filename}}">
+	</div>
 </div>
 </body>
 </html>
