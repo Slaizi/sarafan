@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-	<title>Spring Security Example</title>
-	<link rel="stylesheet" href="/static/style.css">
+	<title>Registration</title>
+	<div th:insert="~{/parts/layout :: head}"/>
 </head>
 <body>
+<div th:with="object=${user}">
+	<div th:insert="~{/parts/layout :: body}"/>
+</div>
+<div class="container mb-1">
 Add new user
 <div th:if="${message}">
 	<p th:text="${message}"></p> <a th:href="@{/login}">Login</a>
 </div>
-<form th:action="@{/registration}" method="post">
-	<div><label> User Name : <input type="text" name="username"/> </label></div>
-	<div><label> Password: <input type="password" name="password"/> </label></div>
-	<div><input type="submit" value="Sign In"/></div>
-</form>
+<div th:with="action=@{/registration}">
+	<div th:replace="parts/login :: form"></div>
+</div>
+</div>
 </body>
 </html>

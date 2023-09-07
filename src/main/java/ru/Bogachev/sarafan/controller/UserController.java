@@ -31,7 +31,7 @@ public class UserController {
     }
     @PostMapping
     public String userSave(
-            @RequestParam String username,
+            @RequestParam("username") String username,
             @RequestParam("userId") User user,
             @RequestParam(value = "roles", required = false) List<String> roles
     ) {

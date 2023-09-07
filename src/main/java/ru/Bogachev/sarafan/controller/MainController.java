@@ -33,7 +33,9 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(@RequestParam(name = "filter", required = false, defaultValue = "") String filter,
+                       @AuthenticationPrincipal User user,
                        Model model) {
+        model.addAttribute("user", user);
         var messages = filter.isEmpty() ? messageRepository.findAll() : messageRepository.findByTag(filter);
         model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset="UTF-8">
 	<title>User editor</title>
-	<link rel="stylesheet" href="/static/style.css">
+	<div th:insert="~{/parts/layout :: head}"/>
 </head>
 <body>
+<div th:with="object=${user}">
+	<div th:insert="~{/parts/layout :: body}"/>
+</div>
+<div class="container">
 <form th:method="POST" th:action="@{/user}" th:object="${user}">
 	<input type="text" name="username" th:value="${user.username}">
 	<div th:each="role : ${roles}">
@@ -18,6 +21,8 @@
 	</div>
 	<input type="hidden" name="userId" th:value="${user.id}">
 	<input type="submit" value="Сохранить">
+</form>
+</div>
 </form>
 </body>
 </html>

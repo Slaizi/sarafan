@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset="UTF-8">
 	<title>List</title>
-	<link rel="stylesheet" href="/static/style.css">
+	<div th:insert="~{/parts/layout :: head}"/>
 </head>
 <body>
+<div th:with="object=${user}">
+	<div th:insert="~{/parts/layout :: body}"/>
+</div>
+<div class="container">
 List of users
 <table>
 	<thead>
@@ -25,6 +28,7 @@ List of users
 	</tr>
 	</tbody>
 </table>
+</div>
 </body>
 </html>
 

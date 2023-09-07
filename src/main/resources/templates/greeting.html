@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-	<meta charset="UTF-8">
 	<title>Greeting Started: Service Web Content</title>
-	<link rel="stylesheet" href="/static/style.css">
+	<div th:insert="~{/parts/layout :: head}"/>
 </head>
 <body>
-<h1 th:if="${user}">
+<div th:with="object=${user}">
+<div th:insert="~{/parts/layout :: body}"/>
+</div>
+<div class="container mt-5">
+<h5 th:if="${user}">
 	Welcome, <span th:text="${user.username}"></span>
-</h1>
+</h5>
+	<div>This is a simple clone off Twitter</div>
+	<h5 th:unless="${user}">
+		Welcome, guest
+	</h5>
 <a th:href="@{/main}">Main page</a>
+</div>
 </body>
 </html>
