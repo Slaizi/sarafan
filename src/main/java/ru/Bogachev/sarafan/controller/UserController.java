@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.Bogachev.sarafan.domain.Role;
 import ru.Bogachev.sarafan.domain.User;
 import ru.Bogachev.sarafan.repository.UserRepository;
+import ru.Bogachev.sarafan.service.UserService;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,7 +48,6 @@ public class UserController {
         }
 
         userRepository.save(user);
-
         return "redirect:/user";
     }
 

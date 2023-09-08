@@ -9,19 +9,19 @@
 	<div th:insert="~{/parts/layout :: body}"/>
 </div>
 <div class="container">
-<form th:method="POST" th:action="@{/user}" th:object="${user}">
-	<input type="text" name="username" th:value="${user.username}">
-	<div th:each="role : ${roles}">
-		<div>
-			<label>
-				<input type="checkbox" name="roles" th:field="*{roles}" th:value="${role}" th:checked="${user.roles.contains(role)}">
-				<span th:text="${role}"></span>
-			</label>
+	<form th:method="POST" th:action="@{/user}" th:object="${user}">
+		<input type="text" name="username" th:value="${user.username}">
+		<div th:each="role : ${roles}">
+			<div>
+				<label>
+					<input type="checkbox" name="roles" th:field="*{roles}" th:value="${role}" th:checked="${user.roles.contains(role)}">
+					<span th:text="${role}"></span>
+				</label>
+			</div>
 		</div>
-	</div>
-	<input type="hidden" name="userId" th:value="${user.id}">
-	<input type="submit" value="Сохранить">
-</form>
+		<input type="hidden" name="userId" th:value="${user.id}">
+		<input type="submit" value="Сохранить">
+	</form>
 </div>
 </form>
 </body>

@@ -6,17 +6,17 @@
 </head>
 <body>
 <div th:with="object=${user}">
-<div th:insert="~{/parts/layout :: body}"/>
+	<div th:insert="~{/parts/layout :: body}"/>
 </div>
 <div class="container mt-5">
-<h5 th:if="${user}">
-	Welcome, <span th:text="${user.username}"></span>
-</h5>
-	<div>This is a simple clone off Twitter</div>
+	<h5 th:if="${user}">
+		Welcome, <span th:text="${user.username}"></span>
+	</h5>
 	<h5 th:unless="${user}">
 		Welcome, guest
 	</h5>
-<a th:href="@{/main}">Main page</a>
+	<div>This is a simple clone off Twitter</div>
+	<a th:href="@{/main}">Main page</a>
 </div>
 </body>
 </html>

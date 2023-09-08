@@ -23,6 +23,9 @@ public class User implements UserDetails {
     String username;
     String password;
     boolean active;
+    String email;
+    String activationCode;
+    @NonNull
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role", nullable = false)
@@ -30,7 +33,7 @@ public class User implements UserDetails {
     Set<Role> roles;
 
     public boolean isAdmin () {
-        return roles.contains(Role.ADMIN);
+        return !this.roles.isEmpty() && this.roles.contains(Role.ADMIN);
     }
 
     @Override

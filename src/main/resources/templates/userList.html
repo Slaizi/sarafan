@@ -9,25 +9,25 @@
 	<div th:insert="~{/parts/layout :: body}"/>
 </div>
 <div class="container">
-List of users
-<table>
-	<thead>
-	<tr>
-		<th>Name</th>
-		<th>Role</th>
-		<th></th>
-	</tr>
-	</thead>
-	<tbody>
-	<tr th:each="user : ${users}">
-		<td th:text="${user.username}"></td>
-		<td>
-			<span th:each="role : ${user.roles}" th:text="${role} + ' '"></span>
-		</td>
-		<td><a th:href="@{/user/{id}(id=${user.id})}">edit</a></td>
-	</tr>
-	</tbody>
-</table>
+	List of users
+	<table>
+		<thead>
+		<tr>
+			<th>Name</th>
+			<th>Role</th>
+			<th></th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr th:each="user : ${users}">
+			<td th:text="${user.username}"></td>
+			<td>
+				<span th:each="role : ${user.roles}" th:text="${role} + ' '"></span>
+			</td>
+			<td><a th:href="@{/user/{id}(id=${user.id})}">edit</a></td>
+		</tr>
+		</tbody>
+	</table>
 </div>
 </body>
 </html>

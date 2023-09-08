@@ -8,11 +8,13 @@
 <div th:with="object=${user}">
 	<div th:insert="~{/parts/layout :: body}"/>
 </div>
-
 <div class="container">
-<div th:with="action=@{/login}">
-	<div th:replace="parts/login :: form"></div>
-</div>
+	<div th:if="${message}">
+		<p th:text="${message}"></p>
+	</div>
+	<div th:with="action=@{/login}">
+		<div th:replace="parts/login :: form"></div>
+	</div>
 </div>
 </body>
 </html>
