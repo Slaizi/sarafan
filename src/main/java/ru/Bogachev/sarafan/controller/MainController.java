@@ -4,15 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.Bogachev.sarafan.domain.Message;
 import ru.Bogachev.sarafan.domain.User;
 import ru.Bogachev.sarafan.repository.MessageRepository;
 import ru.Bogachev.sarafan.utilsPath.MyPath;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,10 +30,17 @@ public class MainController {
         model.addAttribute("user", user);
         return "greeting";
     }
+    @GetMapping("/login")
+    public String login(@ModelAttribute("user") User user,
+                        @RequestParam(name = "error", required = false) String error, Model model) {
+        if(error != null) model.addAttribute("errorMessage", "Authentication error: Invalid username or password");
+        return "login";
+    }
 
     @GetMapping("/main")
-    public String main(@RequestParam(name = "filter", required = false, defaultValue = "") String filter,
+    public String mainPage(@RequestParam(name = "filter", required = false, defaultValue = "") String filter,
                        @AuthenticationPrincipal User user,
+                       @ModelAttribute("message") Message message,
                        Model model) {
         model.addAttribute("user", user);
         var messages = filter.isEmpty() ? messageRepository.findAll() : messageRepository.findByTag(filter);
@@ -45,29 +52,31 @@ public class MainController {
     @PostMapping("/main")
     public String add(
             @AuthenticationPrincipal User user,
-            @RequestParam(name = "text") String text,
-            @RequestParam(name = "tag") String tag,
+            @ModelAttribute("message") @Valid Message message,
+            BindingResult bindingResult,
+            Model model,
             @RequestParam(name = "file") MultipartFile file) throws IOException {
-        String fileName = null;
-        if (file != null && !file.isEmpty() && !file.getOriginalFilename().isEmpty()) {
-            String absoluteOutputDir = myPath.myPathForFile();
-            Files.createDirectories(Paths.get(absoluteOutputDir));
+        message.setAuthor(user);
 
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("user", user);
+            var messages = messageRepository.findAll();
+            model.addAttribute("messages", messages);
+            return "main";
+        } else {
+            if (file != null && !file.isEmpty() && !file.getOriginalFilename().isEmpty()) {
+                String absoluteOutputDir = myPath.myPathForFile();
+                Files.createDirectories(Paths.get(absoluteOutputDir));
 
-            file.transferTo(new File(absoluteOutputDir + "/" + resultFileName));
+                String uuidFile = UUID.randomUUID().toString();
+                String resultFileName = uuidFile + "." + file.getOriginalFilename();
 
-            fileName = resultFileName;
+                file.transferTo(new File(absoluteOutputDir + "/" + resultFileName));
+
+                message.setFilename(resultFileName);
+            }
+            messageRepository.save(message);
+            return "redirect:/main";
         }
-
-        Message message = Message.builder()
-                                 .text(text)
-                                 .tag(tag)
-                                 .author(user)
-                                 .filename(fileName)
-                                 .build();
-        messageRepository.save(message);
-        return "redirect:/main";
     }
 }

@@ -5,10 +5,12 @@
 	<div th:insert="~{/parts/layout :: head}"/>
 </head>
 <body>
+<div th:with="action=@{/registration}, object=${user}">
 	<div th:insert="~{/parts/layout :: body}"/>
+</div>
 <div class="container mb-1">
 	Add new user
-	<div th:with="action=@{/registration}">
+	<div th:with="action=@{/registration}, object=${user}">
 		<div th:replace="parts/login :: form"></div>
 	</div>
 </div>

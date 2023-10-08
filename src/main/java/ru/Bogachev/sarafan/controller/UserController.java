@@ -2,15 +2,17 @@ package ru.Bogachev.sarafan.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.Bogachev.sarafan.domain.Role;
 import ru.Bogachev.sarafan.domain.User;
 import ru.Bogachev.sarafan.repository.UserRepository;
-import ru.Bogachev.sarafan.service.UserService;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -20,7 +22,8 @@ import java.util.stream.Collectors;
 public class UserController {
     private final UserRepository userRepository;
     @GetMapping
-    public String userList (Model model) {
+    public String userList (@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
         model.addAttribute("users", userRepository.findAll());
         return "userList";
     }

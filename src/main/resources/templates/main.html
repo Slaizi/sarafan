@@ -21,14 +21,22 @@
 	<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
 		Add new message
 	</a>
-	<div class="collapse" id="collapseExample">
-		<div class="form-group">
-			<form th:method="POST" th:action="@{/main}" enctype="multipart/form-data">
+	<div th:object="${message}"
+	     th:classappend="${#fields.hasErrors('text') or #fields.hasErrors('tag')} ? 'collapse show' : 'collapse'"
+	     id="collapseExample">
+	<div class="form-group">
+			<form class="needs-validation" th:method="POST" th:action="@{/main}" enctype="multipart/form-data" th:object="${message}">
 				<div class="form-group mt-3">
-					<input type="text" name="text" class="form-control" placeholder="Введите сообщение">
+					<input type="text" th:field="*{text}"
+					       th:classappend="${#fields.hasErrors('text')} ? 'form-control border border-danger' : 'form-control'"
+					       placeholder="Введите сообщение">
+					<div style="color: red;" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Name error</div>
 				</div>
 				<div class="form-group">
-					<input type="text" name="tag"  class="form-control" placeholder="Тэг">
+					<input type="text" th:field="*{tag}"
+					       th:classappend="${#fields.hasErrors('tag')} ? 'form-control border border-danger' : 'form-control'"
+					       placeholder="Тэг">
+					<div style="color: red;" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}">Name error</div>
 				</div>
 				<div class="form-group">
 					<div class="custom-file">
@@ -43,15 +51,15 @@
 		</div>
 	</div>
 	<div class="card-columns">
-		<div class="card my-3" th:each="message : ${messages}">
-			<div th:if="${message.filename}">
-				<img th:src="@{'/img/' + ${message.filename}}" class="card-img-top">
+		<div class="card my-3" th:each="messageCard : ${messages}">
+			<div th:if="${messageCard.filename}">
+				<img th:src="@{'/img/' + ${messageCard.filename}}" class="card-img-top">
 			</div>
 			<div class="m-2">
-				<p th:text="${message.text + ' - '+ message.tag}"></p>
+				<p th:text="${messageCard.text + ' - '+ messageCard.tag}"></p>
 			</div>
 			<div class="card-footer text-muted">
-				<p th:text="${message.authorName}"></p>
+				<p th:text="${messageCard.authorName}"></p>
 			</div>
 		</div>
 	</div>

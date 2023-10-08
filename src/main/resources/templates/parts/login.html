@@ -5,27 +5,57 @@
 	<title>Common Fragments</title>
 </head>
 <body>
-<form th:method="POST" th:fragment="form" th:action="${action}">
+<form class="needs-validation" th:method="POST" th:fragment="form" th:object="${user}" th:action="${action}">
 	<div class="form-group row">
 		<label class="col-sm-2 col-form-label">User Name: </label>
 		<div class="col-sm-6">
-			<input type="text" name="username" class="form-control" placeholder="User name"/>
+			<input type="text" th:field="*{username}"
+			       th:classappend="${#fields.hasErrors('username') or usernameError != null ?
+           'form-control border border-danger' : 'form-control'}"
+			       placeholder="User name">
+			<div th:if="${usernameError}">
+				<div style="color: red;" th:text="${usernameError}"></div>
+			</div>
+			<div style="color: red;" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</div>
 		</div>
 	</div>
 	<div class="form-group row">
 		<label class="col-sm-2 col-form-label">Password:</label>
 		<div class="col-sm-6">
-			<input type="password" name="password" class="form-control" placeholder="Password"/>
+			<input type="password" th:field="*{password}"
+			       th:classappend="${#fields.hasErrors('password') or passwordError != null ?
+			        'form-control border border-danger' : 'form-control'}"
+			       placeholder="Password">
+			<div th:if="${passwordError}">
+				<div style="color: red;" th:text="${passwordError}"></div>
+			</div>
+			<div style="color: red;" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</div>
+		</div>
+	</div>
+	<div class="form-group row" th:if="${action == '/registration'}">
+		<label class="col-sm-2 col-form-label">Password:</label>
+		<div class="col-sm-6">
+			<input type="password" th:field="*{password2}"
+			       th:classappend="${#fields.hasErrors('password2') or passwordError2 != null ?
+			        'form-control border border-danger' : 'form-control'}"
+			       placeholder="Retype password">
+			<div th:if="${passwordError2}">
+				<div style="color: red;" th:text="${passwordError2}"></div>
+			</div>
+			<div style="color: red;" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}">Error</div>
 		</div>
 	</div>
 	<div class="form-group row" th:if="${action == '/registration'}">
 		<label class="col-sm-2 col-form-label"> Email:</label>
 		<div class="col-sm-6">
-			<input type="email" name="email" class="form-control" placeholder="some@some.com"/>
+			<input type="email" th:field="*{email}"
+			       th:classappend="${#fields.hasErrors('email')} ? 'form-control border border-danger' : 'form-control'"
+			       placeholder="some@some.com"/>
+			<div style="color: red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
 		</div>
 	</div>
 	<a th:if="${action == '/login'}" th:href="@{/registration}">Add new user</a>
-	<button class="btn btn-primary mb-2" type="submit" th:text="${action == '/login' ? 'Sign In' : 'Create'}">Sign In</button>
+	<button class="btn btn-primary mb-2" type="submit" th:text="${action == '/login' ? 'Sign In' : 'Create'}">Button</button>
 </form>
 </body>
 </html>

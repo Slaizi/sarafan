@@ -5,14 +5,14 @@
 	<div th:insert="~{/parts/layout :: head}"/>
 </head>
 <body>
-<div th:with="object=${user}">
+<div th:with="action=@{/login}, object=${user}">
 	<div th:insert="~{/parts/layout :: body}"/>
 </div>
 <div class="container">
-	<div th:if="${message}">
-		<p th:text="${message}"></p>
+	<div th:if="${errorMessage}">
+		<div class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
 	</div>
-	<div th:with="action=@{/login}">
+	<div th:with="action=@{/login}, object=${user}">
 		<div th:replace="parts/login :: form"></div>
 	</div>
 </div>

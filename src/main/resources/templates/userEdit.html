@@ -10,17 +10,20 @@
 </div>
 <div class="container">
 	<form th:method="POST" th:action="@{/user}" th:object="${user}">
-		<input type="text" name="username" th:value="${user.username}">
+		<div class="form-group row">
+			<div class="col-sm-4">
+				<input class="form-control rounded" type="text" name="username" th:value="${user.username}">
+			</div>
+		</div>
 		<div th:each="role : ${roles}">
-			<div>
-				<label>
-					<input type="checkbox" name="roles" th:field="*{roles}" th:value="${role}" th:checked="${user.roles.contains(role)}">
-					<span th:text="${role}"></span>
-				</label>
+			<div class="form-check">
+				<input class="form-check-input" type="checkbox" name="roles" th:field="*{roles}"
+				       th:value="${role}" th:checked="${user.roles.contains(role)}"/>
+				<label class="form-check-label" th:text="${role}">role</label>
 			</div>
 		</div>
 		<input type="hidden" name="userId" th:value="${user.id}">
-		<input type="submit" value="Сохранить">
+		<button class="btn btn-outline-primary" type="submit">Save</button>
 	</form>
 </div>
 </form>

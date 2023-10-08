@@ -1,9 +1,7 @@
 package ru.Bogachev.sarafan.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.Bogachev.sarafan.domain.Role;
 import ru.Bogachev.sarafan.domain.User;
@@ -15,15 +13,10 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
+public class UserService {
     private final UserRepository userRepository;
     private final MailSender mailSender;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
-                             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
+    private final PasswordEncoder passwordEncoder;
 
     public boolean addUser(User user) {
         Optional<User> userFromDb = userRepository
@@ -36,6 +29,7 @@ public class UserService implements UserDetailsService {
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
         user.setActivationCode(UUID.randomUUID().toString());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
         if (!user.getEmail().isEmpty()) {
