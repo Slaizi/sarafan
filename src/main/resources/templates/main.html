@@ -30,13 +30,13 @@
 					<input type="text" th:field="*{text}"
 					       th:classappend="${#fields.hasErrors('text')} ? 'form-control border border-danger' : 'form-control'"
 					       placeholder="Введите сообщение">
-					<div style="color: red;" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Name error</div>
+					<div style="color: red;" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Error</div>
 				</div>
 				<div class="form-group">
 					<input type="text" th:field="*{tag}"
 					       th:classappend="${#fields.hasErrors('tag')} ? 'form-control border border-danger' : 'form-control'"
 					       placeholder="Тэг">
-					<div style="color: red;" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}">Name error</div>
+					<div style="color: red;" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}">Error</div>
 				</div>
 				<div class="form-group">
 					<div class="custom-file">
@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<button class="btn btn-primary" type="submit">Добавить</button>
+					<button class="btn btn-primary" type="submit">Save</button>
 				</div>
 			</form>
 		</div>

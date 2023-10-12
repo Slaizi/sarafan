@@ -32,7 +32,8 @@ public class MainController {
     }
     @GetMapping("/login")
     public String login(@ModelAttribute("user") User user,
-                        @RequestParam(name = "error", required = false) String error, Model model) {
+                        @RequestParam(name = "error", required = false) String error,
+                        Model model) {
         if(error != null) model.addAttribute("errorMessage", "Authentication error: Invalid username or password");
         return "login";
     }

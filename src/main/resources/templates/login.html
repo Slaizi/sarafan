@@ -9,8 +9,11 @@
 	<div th:insert="~{/parts/layout :: body}"/>
 </div>
 <div class="container">
-	<div th:if="${errorMessage}">
-		<div class="alert alert-danger" role="alert" th:text="${errorMessage}"></div>
+	<div th:if="${message}">
+		<div class="alert alert-success" role="alert" th:text="${message}"></div>
+	</div>
+	<div th:if="${errorMessage != null or messageError != null}">
+		<div class="alert alert-danger" role="alert" th:text="${errorMessage != null ? errorMessage : messageError}"></div>
 	</div>
 	<div th:with="action=@{/login}, object=${user}">
 		<div th:replace="parts/login :: form"></div>
